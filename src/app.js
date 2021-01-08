@@ -10,11 +10,21 @@
                 function(response){
                     for(var i=0;i<response.data.length;i++){
                         globalService.categories.push(response.data[i]);
+                        $http({
+                           method: "GET",
+                           url: ApiPath+'/menu_items.json',
+                           params: {
+                               category: response.data[i].short_name
+                           }
+                        }).then(function(response){
+                             globalService.menu_items.push(response.data);
+                        });
                     }
                 }
             );
         };
         console.log(globalService.categories);
+        console.log(globalService.menu_items);
         app.menuCategories=globalService.categories;
     }
 
